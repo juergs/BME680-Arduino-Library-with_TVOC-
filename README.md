@@ -9,7 +9,7 @@ Based on herrmannj's algorithm IAQ in PPM-Units  could be delivered without usin
 Credits and very thanks to Jörg Herrmann @ https://github.com/herrmannj/ and https://forum.fhem.de/index.php/topic,96241.0.html
 Author: js @ github.com/juergs and https://forum.fhem.de/index.php/topic,78619.0.html
 *******************************************************************************************************************************
-<img src="https://github.com/juergs/BME680-Arduino-Library-with_TVOC-/BME680_Arduino_Lib.png" height="300"/>
+<img src="https://github.com/juergs/BME680-Arduino-Library-with_TVOC-/blob/master/BME680_Arduino_Lib.png" height="300"/>
 
 Designed specifically to work with the Adafruit BME680 Breakout  * http://www.adafruit.com/products/3660 and libraries.  
 
