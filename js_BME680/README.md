@@ -31,7 +31,8 @@ Requires installation of the Adafruit Unified Sensor library:
 Written by Limor Fried/Ladyada for Adafruit Industries.
 BSD license, all text above must be included in any redistribution
 
-
+****************************************************************************************************************************
+Serial-Monitor output @ 115KBd
 ```
 Enabled: I2C for Wemos D1 mini SDA:D2 / SCL:D1
 Scanning I2C...
