@@ -1,101 +1,101 @@
 /*
-	File: 	js_bme680.h
-	Sensor is using @8266: I2C Pin D1= SCL  D2=SDA 
+    File:   js_bme680.h
+    Sensor is using @8266: I2C Pin D1= SCL  D2=SDA 
 */
 
 #ifndef JS_BME680_H
-	#define JS_BME680_H
+    #define JS_BME680_H
 
-	#include "Arduino.h"
-	#include "SPI.h"
-	#include "Wire.h"
+    #include "Arduino.h"
+    #include "SPI.h"
+    #include "Wire.h"
 
-	//--- include Adafruit lib, which could be found at Github
-	#include <Adafruit_BME680.h>      //--- Adafruit BME680 library  
+    //--- include Adafruit lib, which could be found at Github
+    #include <Adafruit_BME680.h>      //--- Adafruit BME680 library  
 
-	#define DEBUG_SERIAL	1
+    #define DEBUG_SERIAL    1
 
-	#ifdef DEBUG_SERIAL
-	#define DEBUG_BEGIN       Serial.begin(115200)
-	#define DEBUG_PRINT(x)    Serial.println(x)
-	#define DEBUG_OUT(y)      Serial.print(y)
-	#define DEBUG_OUT2(x,y)   Serial.print(x,y) 
-	#else
-	#define DEBUG_PRINT(x) 
-	#define DEBUG_OUT(x)
-	#define DEBUG_OUT2(x,y)
-	#define DEBUG_BEGIN
-	#endif
+    #ifdef DEBUG_SERIAL
+    #define DEBUG_BEGIN       Serial.begin(115200)
+    #define DEBUG_PRINT(x)    Serial.println(x)
+    #define DEBUG_OUT(y)      Serial.print(y)
+    #define DEBUG_OUT2(x,y)   Serial.print(x,y) 
+    #else
+    #define DEBUG_PRINT(x) 
+    #define DEBUG_OUT(x)
+    #define DEBUG_OUT2(x,y)
+    #define DEBUG_BEGIN
+    #endif
 
-	//#define ESP8266
-	#define BME680_DEBUG  
-	#define HAS_BME680MCU       false   //--- serial interfacing
-	#define HAS_BME680I2C       true    //--- hard wired i2c interface, not spi 
-	#define BME680_SEALEVEL 	1015
+    //#define ESP8266
+    #define BME680_DEBUG  
+    #define HAS_BME680MCU       false   //--- serial interfacing
+    #define HAS_BME680I2C       true    //--- hard wired i2c interface, not spi 
+    #define BME680_SEALEVEL     1015
 
-	/**\name C standard macros */
-	#ifndef NULL
-		#ifdef __cplusplus
-			#define NULL   0
-		#else
-			#define NULL   ((void *) 0)
-		#endif
-	#endif	
-	
+    /**\name C standard macros */
+    #ifndef NULL
+        #ifdef __cplusplus
+            #define NULL   0
+        #else
+            #define NULL   ((void *) 0)
+        #endif
+    #endif  
+    
 
-	class JS_BME680Class
-	{
-		public:
-			//--- global						
-			// Constructor
-			JS_BME680Class();
-			//~JS_BME680Class();
+    class JS_BME680Class
+    {
+        public:
+            //--- global                        
+            // Constructor
+            JS_BME680Class();
+            //~JS_BME680Class();
 
-			void do_begin();
-			void do_bme680_measurement(); 
-			unsigned long get_bme680Interval(); 	
+            void do_begin();
+            void do_bme680_measurement(); 
+            unsigned long get_bme680Interval(); 
 
-		private:		
-			//--- internal
-			Adafruit_BME680  bme680;         //--- internal BME680 sensor object								
+            bool            isIAQValid(); 
+            
+            float           getTemp(void);
 
-			// --- prototypes 
+            float           getPress(void);
 
-			void 			getBme680Readings() ;
-			
-			uint32_t 		bme680Abc(uint32_t r, float a); 
-			
-			uint32_t 		i2c_scan() ; 
-			
-			float     		absHum(float temp, float hum);
-			
-			float     		dewPoint(float temp, float hum);
+            float           getHum(void);
 
-			int64_t 		get_timestamp_us();
+            float           getAlt(void);   
 
-			int64_t 		serial_timestamp(); 
+            float           getCalibAlt();
 
-			bool            isIAQValid(); 
-			
-			float 			getTemp(void);
+            float           getGasRes(void);
 
-			float 			getPress(void);
+            float           getSeaLevel();
 
-			float 			getHum(void);
+            float           getTVoc(void);      
 
-			float 			getAlt(void); 	
+        private:        
+            //--- internal
+            Adafruit_BME680  bme680;         //--- internal BME680 sensor object                                
 
-			float 			getCalibAlt();
+            // --- prototypes 
 
-			float 			getGasRes(void);
+            void            getBme680Readings() ;
+            
+            uint32_t        bme680Abc(uint32_t r, float a); 
+            
+            uint32_t        i2c_scan() ; 
+            
+            float           absHum(float temp, float hum);
+            
+            float           dewPoint(float temp, float hum);
 
-			float 			getSeaLevel();
+            int64_t         get_timestamp_us();
 
-			float 			getTVoc(void);			
+            int64_t         serial_timestamp();                 
 
-	};
+    };
 
-	extern JS_BME680Class JS_BME680;
+    extern JS_BME680Class JS_BME680;
 
 
 #endif
