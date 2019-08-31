@@ -12,6 +12,8 @@ Author: js @ github.com/juergs and https://forum.fhem.de/index.php/topic,78619.0
 Wiring Sample: <br>
 <img src="https://github.com/juergs/BME680-Arduino-Library-with_TVOC-/blob/master/BME680_Arduino_Lib.png" height="300"/>
 
+*******************************************************************************************************************************
+
 Designed specifically to work with the Adafruit BME680 Breakout  * http://www.adafruit.com/products/3660 and libraries.  
 
 These sensors use I2C to communicate, up to 4 pins are required to interface
