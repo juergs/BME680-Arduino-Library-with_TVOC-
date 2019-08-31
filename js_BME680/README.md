@@ -32,7 +32,7 @@ Written by Limor Fried/Ladyada for Adafruit Industries.
 BSD license, all text above must be included in any redistribution
 
 
-'''
+```
 Enabled: I2C for Wemos D1 mini SDA:D2 / SCL:D1
 Scanning I2C...
 I2C<*** Started!
@@ -89,4 +89,4 @@ BME680-Reading done.
 [350.40]   Temperature = 27.70 *C  Pressure = 999.34 hPa  Humidity = 51.79 %  Gas = 111.44 KOhms  Approx. Altitude = 116.46 m 
 [350.78] Taupunkt: 17.02  tVOC: 126
 BME680-Reading done.
-'''
+```
