@@ -52,7 +52,9 @@
             //~JS_BME680Class();
 
             void do_begin();
+        
             void do_bme680_measurement(); 
+        
             unsigned long get_bme680Interval(); 
 
             bool            isIAQValid(); 
