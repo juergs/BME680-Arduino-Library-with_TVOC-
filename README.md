@@ -27,6 +27,10 @@ Based on herrmannj's algorithm IAQ in PPM-Units  could be delivered without usin
             unsigned long   get_bme680Interval(); 
 
             void            set_bme680_device_address(uint8_t addr) ;
+            
+            void            set_bme680_offset_temp(float toffset); 
+
+            void            set_bme680_offset_hum(float hoffset); 
 
             bool            isIAQValid(); 
             
