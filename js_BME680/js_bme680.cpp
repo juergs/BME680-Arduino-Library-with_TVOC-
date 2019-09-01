@@ -65,13 +65,15 @@
 
 //----------------------------------------------------------------------
 void JS_BME680Class::set_bme680_offset_temp(float toffset) 
-{
+{  
   param.t_offset = toffset; 
+  DEBUG_OUT("Offset_T:"); DEBUG_PRINT(param.t_offset);
 }
 //----------------------------------------------------------------------
 void JS_BME680Class::set_bme680_offset_hum(float hoffset) 
 {
   param.h_offset = hoffset; 
+  DEBUG_OUT("Offset_H: "); DEBUG_PRINT(param.h_offset);
 }
 //----------------------------------------------------------------------
 void JS_BME680Class::set_bme680_device_address(uint8_t addr) 
@@ -180,24 +182,34 @@ void JS_BME680Class::do_bme680_measurement()
       return;
     };
 
+
+    float     t = bme680.temperature + param.t_offset;
+    float     h = bme680.humidity + param.h_offset;
+    float     a = absHum(t, h);
+    aF = (aF == 0 || a < aF)?a:aF + 0.2 * (a - aF);
+    float     d = dewPoint(t, h);
+    float     p = bme680.pressure /100.0F;
+    uint32_t  r = bme680.gas_resistance; // raw R VOC
+
+
     //DEBUG_OUT( get_timestamp_us() ); 
     //DEBUG_OUT("  "); 
     serial_timestamp(); 
     DEBUG_OUT("  ");
     DEBUG_OUT(F("Temperature = "));
-    DEBUG_OUT(bme680.temperature);
+    DEBUG_OUT(t);
     DEBUG_OUT(F(" *C  "));
 
     DEBUG_OUT(F("Pressure = "));
-    DEBUG_OUT(bme680.pressure / 100.0);
+    DEBUG_OUT(p);
     DEBUG_OUT(" hPa  ");
     
     DEBUG_OUT(F("Humidity = "));
-    DEBUG_OUT(bme680.humidity);
+    DEBUG_OUT(h);
     DEBUG_OUT(F(" %  "));
     
     DEBUG_OUT(F("Gas = "));
-    DEBUG_OUT(bme680.gas_resistance / 1000.0);
+    DEBUG_OUT(r / 1000.0);
     DEBUG_OUT(F(" KOhms  "));
 
     #define SEALEVELPRESSURE_HPA (1013.25)
@@ -216,13 +228,6 @@ void JS_BME680Class::do_bme680_measurement()
     char str_tVoc[8];
     char str_gas[8];
 
-    float     t = bme680.temperature + param.t_offset;
-    float     h = bme680.humidity + param.h_offset;
-    float     a = absHum(t, h);
-    aF = (aF == 0 || a < aF)?a:aF + 0.2 * (a - aF);
-    float     d = dewPoint(t, h);
-    float     p = bme680.pressure /100.0F;
-    uint32_t  r = bme680.gas_resistance; // raw R VOC
 
     if (!bme680VocValid )
     {
