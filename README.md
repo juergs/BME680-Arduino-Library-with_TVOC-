@@ -16,7 +16,6 @@ Based on herrmannj's algorithm IAQ in PPM-Units  could be delivered without usin
 | general drowsiness                | < 1000 ppm    | 
 | adverse health effects expected   | < 2500 ppm    | 
 | serious oxigen deprivation        | < 5000 ppm    |
-| ----------------------------------|:-------------:|
 
 *******************************************************************************************************************************
 Credits and very thanks to Jörg Herrmann @ https://github.com/herrmannj/ and https://forum.fhem.de/index.php/topic,96241.0.html
