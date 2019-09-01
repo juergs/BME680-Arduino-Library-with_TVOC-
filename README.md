@@ -17,6 +17,39 @@ Based on herrmannj's algorithm IAQ in PPM-Units  could be delivered without usin
 | adverse health effects expected   | < `2500` ppm    | 
 | serious oxigen deprivation        | < `5000` ppm    |
 
+#Exposed JS_BME680-Methods:
+
+```
+            void            do_begin();
+
+            void            do_bme680_measurement(); 
+            
+            unsigned long   get_bme680Interval(); 
+
+            void            set_bme680_device_address(uint8_t addr) ;
+
+            bool            isIAQValid(); 
+            
+            float           getTemp(void);
+
+            float           getPress(void);
+
+            float           getHum(void);
+
+            float           getAlt(void);   
+
+            float           getCalibAlt();
+
+            float           getGasRes(void);
+
+            float           getSeaLevel();
+
+            float           getTVoc(void);      
+
+``
+
+
+
 *******************************************************************************************************************************
 Credits and very thanks to Jörg Herrmann @ https://github.com/herrmannj/ and https://forum.fhem.de/index.php/topic,96241.0.html
 Author: js @ github.com/juergs and https://forum.fhem.de/index.php/topic,78619.0.html
