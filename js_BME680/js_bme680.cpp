@@ -4,6 +4,8 @@
 
 #include "js_bme680.h"
 
+  uint8_t         _I2C_BME680_ADDRESS   = BME680_I2C_ADDR_PRIMARY;  // 0x76 should be set as default address 
+
   float       	  temperature = 0.0;    
 	float  			    humidity    = 0.0;    
 	float 			    pressure 	  = 0.0;
@@ -21,10 +23,10 @@
 	//--- automatic baseline correction
 	uint32_t        bme680_baseC        = 0;                	// highest adjusted r (lowest voc) in current time period
 	float           bme680_baseH        = 0;                	// abs hum (g/m3)
-	unsigned long   prevBme680AbcMillis = 0;      			// ts of last save to nv 
-	unsigned long   intervalBme680NV    = 604800000; 			// 7 days of ms
+	unsigned long   prevBme680AbcMillis = 0;      			      // ts of last save to nv 
+	unsigned long   intervalBme680NV    = 604800000; 			    // 7 days of ms
 	uint8_t         bDelay              = 0;  
-  uint16_t        pressureSeaLevel    = 1013.25;                          //default value of 1013.25 hPa  
+  uint16_t        pressureSeaLevel    = 1013.25;            //default value of 1013.25 hPa  
 
 	struct 
 	{ 
@@ -61,6 +63,11 @@
 	
 	GDATA_TYP gdata;   
 
+//----------------------------------------------------------------------
+void JS_BME680Class::set_bme680_device_address(uint8_t addr) 
+{
+  _I2C_BME680_ADDRESS = addr; 
+}
 //----------------------------------------------------------------------
 JS_BME680Class::JS_BME680Class()
 {
@@ -150,7 +157,7 @@ int64_t JS_BME680Class::serial_timestamp()
 void JS_BME680Class::do_bme680_measurement()
 {
    //serial_timestamp(); DEBUG_PRINT(F(" BME680-I2C: call do_bme680_measurement"));
-   getBme680Readings() ; 
+   getBme680Readings() ;  //--- with handling of prevBme680Millis
 }
 //----------------------------------------------------------------------
   void JS_BME680Class::getBme680Readings() 
@@ -417,6 +424,7 @@ void JS_BME680Class::do_begin()
 */
     //--- set I2C-Clock
     #ifdef ESP8266
+      Wire.setClockStretchLimit(1000); //--- Default is 230us, see line78 of https://github.com/esp8266/Arduino/blob/master/cores/esp8266/core_esp8266_si2c.c
       Wire.setClock(400000);
       //--- (SDA,SCL) D1, D2 enable I2C for Wemos D1 mini SDA:D2 / SCL:D1 
       Wire.begin(D2, D1);
@@ -427,11 +435,16 @@ void JS_BME680Class::do_begin()
 
    //--- (SDA,SCL) D1, D2
    //--- enable I2C for Wemos D1 mini SDA:D2 / SCL:D1 
-   Wire.begin(D2, D1);
+   //Wire.begin(D2, D1);
 
    i2c_scan(); 
+   
 
-   if (!bme680.begin()) 
+   // #define BME680_DEFAULT_ADDRESS  (0x77)     ///< The default I2C address
+   // #define BME680_SECONDARY_ADDRESS (0x76) 
+
+   // if (!bme680.begin()) //--- no use of Adafruits default address, which is also 0x76 
+   if (!bme680.begin(_I2C_BME680_ADDRESS)) 
     {
         DEBUG_PRINT(F("I2C-Error: Could not find a valid BME680 sensor, check wiring!"));
         delay(3000);
@@ -447,11 +460,13 @@ void JS_BME680Class::do_begin()
     bme680.setHumidityOversampling(BME680_OS_2X);
     bme680.setPressureOversampling(BME680_OS_4X);
     bme680.setIIRFilterSize(BME680_FILTER_SIZE_3);
-    bme680.setGasHeater(320, 150);                  // 320*C for 150 ms
+    bme680.setGasHeater(320, 150);    // 320*C for 150 ms
+
+    DEBUG_PRINT(F("BME680 sensor initialized."));
 
 }
 
 
-//---------------------------------------------------------
-//---  static instance 
+//---------------------------------
+//---  declare the static instance 
 JS_BME680Class JS_BME680;

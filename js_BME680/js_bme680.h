@@ -32,6 +32,10 @@
     #define HAS_BME680MCU       false   //--- serial interfacing
     #define HAS_BME680I2C       true    //--- hard wired i2c interface, not spi 
     #define BME680_SEALEVEL     1015
+    /** BME680 I2C addresses */
+    #define BME680_I2C_ADDR_PRIMARY		UINT8_C(0x76)   // SDO = GND  pemue-adapter-board
+    #define BME680_I2C_ADDR_SECONDARY	UINT8_C(0x77)   // SDO = open or high
+    
 
     /**\name C standard macros */
     #ifndef NULL
@@ -51,11 +55,13 @@
             JS_BME680Class();
             //~JS_BME680Class();
 
-            void do_begin();
-        
-            void do_bme680_measurement(); 
-        
-            unsigned long get_bme680Interval(); 
+            void            do_begin();
+
+            void            do_bme680_measurement(); 
+            
+            unsigned long   get_bme680Interval(); 
+
+            void            set_bme680_device_address(uint8_t addr) ;
 
             bool            isIAQValid(); 
             
