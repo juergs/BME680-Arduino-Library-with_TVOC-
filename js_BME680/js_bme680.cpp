@@ -36,7 +36,7 @@
 		uint32_t      vocBaseC  = 0;                   // base value for VOC resistance clean air, abc  
 		float         vocHum    = 0;                   // reserved, abc
 		uint32_t      signature = 0x49415143;          // 'IAQC'
-	} preload, param;     							//--- stable new baseline counter (avoid short-term noise)    
+	} preload, param;     							        //--- stable new baseline counter (avoid short-term noise)    
 
 	typedef struct 
 	{ 
@@ -63,6 +63,16 @@
 	
 	GDATA_TYP gdata;   
 
+//----------------------------------------------------------------------
+void JS_BME680Class::set_bme680_offset_temp(float toffset) 
+{
+  param.t_offset = toffset; 
+}
+//----------------------------------------------------------------------
+void JS_BME680Class::set_bme680_offset_hum(float hoffset) 
+{
+  param.h_offset = hoffset; 
+}
 //----------------------------------------------------------------------
 void JS_BME680Class::set_bme680_device_address(uint8_t addr) 
 {

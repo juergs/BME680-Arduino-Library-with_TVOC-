@@ -63,6 +63,10 @@
 
             void            set_bme680_device_address(uint8_t addr) ;
 
+            void            set_bme680_offset_temp(float toffset); 
+
+            void            set_bme680_offset_hum(float hoffset); 
+
             bool            isIAQValid(); 
             
             float           getTemp(void);
